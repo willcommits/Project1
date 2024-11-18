@@ -19,7 +19,11 @@ public class Program
         s2.setStartSequence(allocator.getAllocatedValues()+1);
         allocator.SetIncrementAllocation(requestedRange);
         s2.setEndSequence(allocator.getAllocatedValues());
-        
+
+        Thread t1 = new Thread(s2.ProcessWork);
+        t1.Start();
+        Thread t2 = new Thread(s1.ProcessWork);
+        t2.Start();
         
         Console.WriteLine("S1 Start:"+s1.getStartSequence());
         Console.WriteLine("S1 End:"+s1.getEndSequence());
