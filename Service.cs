@@ -38,12 +38,17 @@ public class Service
         return lengthOfRequestedSequenceNumber;
     }
 
-    public void ProcessWork()
+    public void ProcessWork(Object endvalue)
     {
-        for (int i = StartSequence; i <= EndSequence; i++)
+        if (this.StartSequence < this.EndSequence)
         {
-            Console.WriteLine(ServiceName+" S "+i);
-            Thread.Sleep(1000);
+            for (int i = StartSequence; i <= Convert.ToInt32(endvalue); i++)
+            {
+                Console.WriteLine(ServiceName+" S "+i);
+                Thread.Sleep(1000);
+            }
+
         }
+        this.StartSequence=this.StartSequence+Convert.ToInt32(endvalue);
     }
 }

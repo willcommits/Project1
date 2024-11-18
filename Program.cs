@@ -2,10 +2,13 @@ namespace HelloWorld;
 
 public class Program
 {
+   static Random random = new Random();
     public static void Main(string[] args)
     {
+        
         int requestedRange = 0;
         SequenceAllocator allocator=new SequenceAllocator(0);
+        Cache cache=new Cache();
         
         Service s1 = new Service(1000, "Web");
         requestedRange = s1.getLengthOfRequestedSequenceNumber();
@@ -20,17 +23,26 @@ public class Program
         allocator.SetIncrementAllocation(requestedRange);
         s2.setEndSequence(allocator.getAllocatedValues());
 
-        Thread t1 = new Thread(s2.ProcessWork);
-        t1.Start();
-        Thread t2 = new Thread(s1.ProcessWork);
-        t2.Start();
+      
         
-        Console.WriteLine("S1 Start:"+s1.getStartSequence());
-        Console.WriteLine("S1 End:"+s1.getEndSequence());
-        
-        Console.WriteLine("S2 Start:"+s2.getStartSequence());
-        Console.WriteLine("S2 End:"+s2.getEndSequence());
-        
+     
+
+        while (s1.getStartSequence() < s1.getEndSequence() && s2.getStartSequence() < s2.getEndSequence())
+        {
+            int randomIntInRange = random.Next(1, 16); 
+            cache.populateCache(s1.getStartSequence(),s1.getStartSequence()+randomIntInRange);
+            Thread t1 = new Thread(()=>s1.ProcessWork(randomIntInRange));
+            t1.Start();
+            
+            
+            cache.populateCache(s2.getStartSequence(),s2.getStartSequence()+randomIntInRange);
+            Thread t2 = new Thread(()=>s2.ProcessWork(randomIntInRange));
+            t2.Start();
+
+            t1.Join();
+            t2.Join();
+        }
+
     }
 
 }

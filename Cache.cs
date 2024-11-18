@@ -2,16 +2,26 @@ namespace HelloWorld;
 
 public class Cache
 {
-    
+     Object Lock=new Object();
     private Dictionary<int, int> cache = new Dictionary<int, int>();
 
 
-    public void setValues(int value)
+  
+    public void populateCache(int start,int end)
     {
-        if (!cache.ContainsKey(value))
+        lock (Lock)
         {
-         cache.Add(value, 0);   
+            for (int i = start; i < end; i++)
+            {
+                if (!cache.ContainsKey(i))
+                {
+                    cache.Add(i, i);
+                }
+               
+            
+            }
         }
+        
     }
     
     
