@@ -1,12 +1,15 @@
 using System;
 using System.Threading;
+using System.Diagnostics;
 
 namespace HelloWorld
 {
     public class Program
     {
+
         static Random random = new Random();
         private static readonly object randomLock = new object();
+     
 
         public static void Main(string[] args)
         {
@@ -34,19 +37,22 @@ namespace HelloWorld
             Console.WriteLine($"{s1.GetServiceName()} allocated sequences {s1.GetStartSequence()} to {s1.GetEndSequence() - 1}");
             Console.WriteLine($"{s2.GetServiceName()} allocated sequences {s2.GetStartSequence()} to {s2.GetEndSequence() - 1}");
 
-            // Start processing threads
+           
             Thread t1 = new Thread(() => ProcessService(s1, cache));
             Thread t2 = new Thread(() => ProcessService(s2, cache));
 
             t1.Start();
             t2.Start();
-
-            // Wait for both threads to complete
+            
             t1.Join();
             t2.Join();
 
-            // Display final cache contents
+          
             cache.DisplayCache();
+            System.Diagnostics.Process p = System.Diagnostics.Process.GetCurrentProcess();
+            long ram = p.WorkingSet64;
+            Console.WriteLine($"RAM: {ram/1024/1024} MB");
+            
         }
 
         // Method to process a service until all sequences are processed
@@ -62,11 +68,18 @@ namespace HelloWorld
 
                 service.SimulateService(cache, r);
 
-                // Optional: Add a delay to simulate processing time
+                
                 Thread.Sleep(random.Next(10, 100));
             }
-
+           //checking memory consumption after Thread is done executing
+            LogMemoryUsage();
             Console.WriteLine($"{service.GetServiceName()} has completed processing.");
+        }
+        public static void LogMemoryUsage()
+        {
+            Process p = Process.GetCurrentProcess();
+            long ram = p.WorkingSet64;
+            Console.WriteLine($"RAM: {ram / 1024 / 1024} MB");
         }
     }
 }

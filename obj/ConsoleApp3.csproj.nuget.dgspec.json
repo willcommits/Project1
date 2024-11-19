@@ -1,21 +1,21 @@
 {
   "format": 1,
   "restore": {
-    "/Users/abongilemkaza/RiderProjects/Project1/ConsoleApp3.csproj": {}
+    "C:\\Users\\Left\\RiderProjects\\Project1\\ConsoleApp3.csproj": {}
   },
   "projects": {
-    "/Users/abongilemkaza/RiderProjects/Project1/ConsoleApp3.csproj": {
+    "C:\\Users\\Left\\RiderProjects\\Project1\\ConsoleApp3.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/abongilemkaza/RiderProjects/Project1/ConsoleApp3.csproj",
+        "projectUniqueName": "C:\\Users\\Left\\RiderProjects\\Project1\\ConsoleApp3.csproj",
         "projectName": "ConsoleApp3",
-        "projectPath": "/Users/abongilemkaza/RiderProjects/Project1/ConsoleApp3.csproj",
-        "packagesPath": "/Users/abongilemkaza/.nuget/packages/",
-        "outputPath": "/Users/abongilemkaza/RiderProjects/Project1/obj/",
+        "projectPath": "C:\\Users\\Left\\RiderProjects\\Project1\\ConsoleApp3.csproj",
+        "packagesPath": "C:\\Users\\Left\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Left\\RiderProjects\\Project1\\obj\\",
         "projectStyle": "PackageReference",
         "UsingMicrosoftNETSdk": false,
         "configFilePaths": [
-          "/Users/abongilemkaza/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\Left\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
@@ -59,7 +59,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.404/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.404/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
