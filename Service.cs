@@ -2,23 +2,23 @@ namespace HelloWorld
 {
     public class Service
     {
-        // Private fields
+     
         private readonly int _lengthOfRequestedSequenceNumber;
         private string _serviceName;
-        private int _startSequence; // assigned start 
-        private int _endSequence;   // assigned end 
+        private int _startSequence; 
+        private int _endSequence;   
 
-        // Public property to expose the length
+     
         public int LengthOfRequestedSequenceNumber => _lengthOfRequestedSequenceNumber;
 
-        // Constructor
+     
         public Service(int lengthOfRequestedSequenceNumber, string serviceName)
         {
             _lengthOfRequestedSequenceNumber = lengthOfRequestedSequenceNumber;
             _serviceName = serviceName;
         }
 
-        // Methods to set sequences
+       
         public void SetStartSequence(int startSequence)
         {
             _startSequence = startSequence;
@@ -59,7 +59,7 @@ namespace HelloWorld
 
                 processStart = _startSequence;
                 processEnd = Math.Min(_startSequence + value, _endSequence);
-                _startSequence = processEnd; // Update the start for next processing
+                _startSequence = processEnd; 
             }
 
             Console.WriteLine($"{_serviceName} processing sequences {processStart} to {processEnd - 1}");
