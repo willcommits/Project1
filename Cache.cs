@@ -1,32 +1,36 @@
-namespace HelloWorld;
+using System;
+using System.Collections.Generic;
 
-public class Cache
+namespace HelloWorld
 {
-     Object Lock=new Object();
-    private Dictionary<int, int> cache = new Dictionary<int, int>();
-
-
-  
-    public void populateCache(int start,int end)
+    public class Cache
     {
-        lock (Lock)
+        private readonly object lockObj = new object();
+        private readonly HashSet<int> cache = new HashSet<int>();
+
+        // Populates the cache with processed sequence numbers
+        public void PopulateCache(int start, int end)
         {
-            for (int i = start; i < end; i++)
+            lock (lockObj)
             {
-                if (!cache.ContainsKey(i))
+                for (int i = start; i < end; i++)
                 {
-                    cache.Add(i, i);
+                    if (!cache.Contains(i))
+                    {
+                        cache.Add(i);
+                        Console.WriteLine($"Cache updated with sequence number: {i}");
+                    }
                 }
-               
-            
             }
         }
-        
+
+        // Displays the current cache contents
+        public void DisplayCache()
+        {
+            lock (lockObj)
+            {
+                Console.WriteLine("Current Cache: " + string.Join(", ", cache));
+            }
+        }
     }
-    
-    
-    
-    
-    //Does our look up 
-    
 }

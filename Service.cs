@@ -1,54 +1,69 @@
-namespace HelloWorld;
-
-public class Service
+namespace HelloWorld
 {
-    private int lengthOfRequestedSequenceNumber; // needed sequence number
-    private String ServiceName;
-    private int StartSequence;// assigned start 
-    private int EndSequence;// assigned end 
-    
-    public Service(int lengthOfRequestedSequenceNumber, String ServiceName)
+    public class Service
     {
-        this. lengthOfRequestedSequenceNumber = lengthOfRequestedSequenceNumber;
-        this.ServiceName = ServiceName;
-    }
+        // Private fields
+        private readonly int _lengthOfRequestedSequenceNumber;
+        private string _serviceName;
+        private int _startSequence; // assigned start 
+        private int _endSequence;   // assigned end 
 
-    public void setStartSequence(int StartSequence)
-    {
-        this.StartSequence = StartSequence;
-    }
+        // Public property to expose the length
+        public int LengthOfRequestedSequenceNumber => _lengthOfRequestedSequenceNumber;
 
-    public int getStartSequence()
-    {
-        return this.StartSequence;
-    }
-
-    public void setEndSequence(int EndSequence)
-    {
-        this.EndSequence = EndSequence;
-    }
-
-    public int getEndSequence()
-    {
-        return this.EndSequence;
-    }
-
-    public int getLengthOfRequestedSequenceNumber()
-    {
-        return lengthOfRequestedSequenceNumber;
-    }
-
-    public void ProcessWork(Object endvalue)
-    {
-        if (this.StartSequence < this.EndSequence)
+        // Constructor
+        public Service(int lengthOfRequestedSequenceNumber, string serviceName)
         {
-            for (int i = StartSequence; i <= Convert.ToInt32(endvalue); i++)
+            _lengthOfRequestedSequenceNumber = lengthOfRequestedSequenceNumber;
+            _serviceName = serviceName;
+        }
+
+        // Methods to set sequences
+        public void SetStartSequence(int startSequence)
+        {
+            _startSequence = startSequence;
+        }
+
+        public int GetStartSequence()
+        {
+            return _startSequence;
+        }
+
+        public void SetEndSequence(int endSequence)
+        {
+            _endSequence = endSequence;
+        }
+
+        public int GetEndSequence()
+        {
+            return _endSequence;
+        }
+
+        public string GetServiceName()
+        {
+            return _serviceName;
+        }
+
+        // Simulates processing sequence numbers
+        public void SimulateService(Cache cache, int value)
+        {
+            int processStart, processEnd;
+
+            lock (this)
             {
-                Console.WriteLine(ServiceName+" S "+i);
-                Thread.Sleep(1000);
+                if (_startSequence >= _endSequence)
+                {
+                    Console.WriteLine($"{_serviceName}: No more sequences to process.");
+                    return;
+                }
+
+                processStart = _startSequence;
+                processEnd = Math.Min(_startSequence + value, _endSequence);
+                _startSequence = processEnd; // Update the start for next processing
             }
 
+            Console.WriteLine($"{_serviceName} processing sequences {processStart} to {processEnd - 1}");
+            cache.PopulateCache(processStart, processEnd);
         }
-        this.StartSequence=this.StartSequence+Convert.ToInt32(endvalue);
     }
 }

@@ -1,23 +1,29 @@
-namespace HelloWorld;
-
-public class SequenceAllocator
+namespace HelloWorld
 {
-    private int allocatedValues;
-
-    public SequenceAllocator(int allocatedValues)
+    public class SequenceAllocator
     {
-        this.allocatedValues=allocatedValues;
-    }
+        private int allocatedValues;
+        private readonly object lockObj = new object();
 
-    public int getAllocatedValues()
-    {
-       return this.allocatedValues;
-    }
+        public SequenceAllocator(int allocatedValues)
+        {
+            this.allocatedValues = allocatedValues;
+        }
 
-    public void SetIncrementAllocation(int increment)
-    {
-        this.allocatedValues=this.allocatedValues+increment;
+        public int GetAllocatedValues()
+        {
+            lock (lockObj)
+            {
+                return this.allocatedValues;
+            }
+        }
+
+        public void SetIncrementAllocation(int increment)
+        {
+            lock (lockObj)
+            {
+                this.allocatedValues += increment;
+            }
+        }
     }
-    
-    
 }
