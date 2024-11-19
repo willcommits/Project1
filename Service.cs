@@ -1,69 +1,103 @@
+using System.Collections.Concurrent;
+
 namespace HelloWorld
 {
     public class Service
     {
-     
+        private readonly string _serviceName;
         private readonly int _lengthOfRequestedSequenceNumber;
-        private string _serviceName;
-        private int _startSequence; 
-        private int _endSequence;   
+        private readonly int _threadSleeptimeMs;
 
-     
+
+        private int _currentSequenceNumber;
+        private int _startSequence = -1;
+        private int _endSequence = -1;
+        private readonly SequenceGenerator _seqGen;
+        private BlockingCollection<int> _blockingCollection;
+        private bool isRunning = false;
+
+        private readonly object _lock = new object();
+
         public int LengthOfRequestedSequenceNumber => _lengthOfRequestedSequenceNumber;
 
-     
-        public Service(int lengthOfRequestedSequenceNumber, string serviceName)
+        public Service(SequenceGenerator seqGen, BlockingCollection<int> blockingCollection,
+            int lengthOfRequestedSequenceNumber, int threadSleeptimeMs, string serviceName)
         {
+            _seqGen = seqGen;
+            _blockingCollection = blockingCollection;
             _lengthOfRequestedSequenceNumber = lengthOfRequestedSequenceNumber;
             _serviceName = serviceName;
+            _threadSleeptimeMs = threadSleeptimeMs;
         }
 
-       
-        public void SetStartSequence(int startSequence)
-        {
-            _startSequence = startSequence;
-        }
-
-        public int GetStartSequence()
-        {
-            return _startSequence;
-        }
-
-        public void SetEndSequence(int endSequence)
-        {
-            _endSequence = endSequence;
-        }
-
-        public int GetEndSequence()
-        {
-            return _endSequence;
-        }
 
         public string GetServiceName()
         {
             return _serviceName;
         }
 
-        // Simulates processing sequence numbers
-        public void SimulateService(Cache cache, int value)
-        {
-            int processStart, processEnd;
 
-            lock (this)
+        public void StartWork()
+        {
+            if (!isRunning)
             {
-                if (_startSequence >= _endSequence)
+                isRunning = true;
+
+                if (_startSequence == -1 || _endSequence == -1)
                 {
-                    Console.WriteLine($"{_serviceName}: No more sequences to process.");
+                    var x = _seqGen.GetNextSequence(_lengthOfRequestedSequenceNumber);
+                    if (x.seqExhausted)
+                    {
+                        isRunning = false;
+                        return;
+                    }
+
+                    _startSequence = x.startVal;
+                    _endSequence = x.endVal;
+                }
+
+                Thread t = new Thread(Work);
+                t.Start();
+            }
+        }
+
+        public void StopWork()
+        {
+            isRunning = false;
+        }
+
+        private void Work()
+        {
+            while (isRunning)
+            {
+                Console.WriteLine($"I'm the service {_serviceName} .........");
+                int sequenceTracker = 0;
+                for (int i = _startSequence; i < _endSequence; i++)
+                {
+                    Console.WriteLine($"I'm the service {_serviceName} .........");
+                    Console.WriteLine($"Processing sequence {i}");
+                    sequenceTracker++;
+                    _blockingCollection.Add(i);
+                    Thread.Sleep(_threadSleeptimeMs);
+                }
+
+                //checking if we have sequence numbers to allocate
+                var x = _seqGen.GetNextSequence(_lengthOfRequestedSequenceNumber);
+                if (x.seqExhausted)
+                {
+                    isRunning = false;
+                    Console.WriteLine(" I ran out of Sequence Numbers.");
                     return;
                 }
 
-                processStart = _startSequence;
-                processEnd = Math.Min(_startSequence + value, _endSequence);
-                _startSequence = processEnd; 
-            }
+                _startSequence = x.startVal;
+                _endSequence = x.endVal;
 
-            Console.WriteLine($"{_serviceName} processing sequences {processStart} to {processEnd - 1}");
-            cache.PopulateCache(processStart, processEnd);
+                //Check if you have something to Push
+                //If y - push
+                //if no - get new batch of seq (if no further SEQ allowed - set isRunning = false RETURN
+                //Push to Block COLL
+            }
         }
     }
 }
