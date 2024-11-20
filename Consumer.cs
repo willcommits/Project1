@@ -4,14 +4,14 @@ namespace HelloWorld;
 
 public class Consumer
 {
-    private BlockingCollection<int> _blockqueue;
+    private BlockingCollection<Data> _blockqueue;
     private Cache _cache;
     private Service _s1;
     private Service _s2;
 
     private Boolean isRunning = false;
 
-    public Consumer(BlockingCollection<int> blockqueue,Cache cache,Service s1,Service s2 )
+    public Consumer(BlockingCollection<Data> blockqueue,Cache cache,Service s1,Service s2 )
     {
         _blockqueue = blockqueue;
         _cache = cache;
@@ -43,14 +43,12 @@ public class Consumer
         while (isRunning)
         {
      
-            if (_blockqueue.TryTake(out int value, 1000)) // Timeout of 1000 ms
+            if (_blockqueue.TryTake(out Data value, 1000)) // Timeout of 1000 ms
             {
-                _cache.PopulateCache(value
-                );
+                _cache.PopulateCache(value);
             }
 
         }
-
        Stop();
        _cache.DisplayCache();
     }

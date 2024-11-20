@@ -5,24 +5,21 @@ namespace HelloWorld
     public class Service
     {
 
-       
         private readonly string _serviceName;
         private readonly int _lengthOfRequestedSequenceNumber;
         private readonly int _threadSleeptimeMs;
-
-
         private int _currentSequenceNumber;
         private int _startSequence = -1;
         private int _endSequence = -1;
         private readonly SequenceGenerator _seqGen;
-        private BlockingCollection<int> _blockingCollection;
+        private BlockingCollection<Data> _blockingCollection;
         private bool isRunning = false;
 
         private readonly object _lock = new object();
 
         public int LengthOfRequestedSequenceNumber => _lengthOfRequestedSequenceNumber;
 
-        public Service(SequenceGenerator seqGen, BlockingCollection<int> blockingCollection,
+        public Service(SequenceGenerator seqGen, BlockingCollection<Data> blockingCollection,
             int lengthOfRequestedSequenceNumber, int threadSleeptimeMs, string serviceName)
         {
             _seqGen = seqGen;
@@ -74,16 +71,20 @@ namespace HelloWorld
             {
                 
                 int sequenceTracker = 0;
+                //generating my key value pair 
+                Data currentData = new Data(_startSequence, _endSequence);
                 for (int i = _startSequence; i <= _endSequence; i++)
                 {
                     if (i % 10000 == 0)
                     {
-                        _blockingCollection.Add(GenerateHashValue(i));
+                        //storing as key value pair Data{ start;end;}
+                        _blockingCollection.Add(currentData);
                     }
                     sequenceTracker++;
-                    _blockingCollection.Add(GenerateHashValue(i));
                     Thread.Sleep(_threadSleeptimeMs);
                 }
+                
+                _blockingCollection.Add(currentData);
 
                 //checking if we have sequence numbers to allocate
                 var x = _seqGen.GetNextSequence(_lengthOfRequestedSequenceNumber);

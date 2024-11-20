@@ -1,18 +1,22 @@
 using System;
 using System.Collections.Generic;
+using System.Security.AccessControl;
 
 namespace HelloWorld
 {
     public class Cache
     {
         
-        private readonly Dictionary<long, DateTime> cache2 = new();
-        public void PopulateCache(int value)
+        private readonly Dictionary<Data, DateTime> cache2 = new();
+        public void PopulateCache(Data value)
         {
-            long memoryBefore = GC.GetTotalMemory(forceFullCollection: true);
             if (!cache2.TryAdd(value, DateTime.Now))
             {
-                Console.WriteLine($"Cache key already exists {value}");
+                Console.WriteLine($"Cache key already exists: {value}");
+            }
+            else
+            {
+                Console.WriteLine($"Added to cache: {value}");
             }
         }
         
