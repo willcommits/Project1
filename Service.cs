@@ -48,7 +48,7 @@ namespace HelloWorld
                     var x = _seqGen.GetNextSequence(_lengthOfRequestedSequenceNumber);
                     if (x.seqExhausted)
                     {
-                        isRunning = false;
+                        StopWork();
                         return;
                     }
 
@@ -72,7 +72,7 @@ namespace HelloWorld
             {
                 Console.WriteLine($"I'm the service {_serviceName} .........");
                 int sequenceTracker = 0;
-                for (int i = _startSequence; i < _endSequence; i++)
+                for (int i = _startSequence; i <= _endSequence; i++)
                 {
                     Console.WriteLine($"I'm the service {_serviceName} .........");
                     Console.WriteLine($"Processing sequence {i}");
@@ -85,19 +85,20 @@ namespace HelloWorld
                 var x = _seqGen.GetNextSequence(_lengthOfRequestedSequenceNumber);
                 if (x.seqExhausted)
                 {
-                    isRunning = false;
+                   StopWork();
                     Console.WriteLine(" I ran out of Sequence Numbers.");
                     return;
                 }
-
                 _startSequence = x.startVal;
                 _endSequence = x.endVal;
-
-                //Check if you have something to Push
-                //If y - push
-                //if no - get new batch of seq (if no further SEQ allowed - set isRunning = false RETURN
-                //Push to Block COLL
+                
             }
+        }
+
+
+        public bool getIsRunning()
+        {
+            return isRunning;
         }
     }
 }

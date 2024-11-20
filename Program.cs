@@ -9,17 +9,24 @@ namespace HelloWorld
     {
         public static void Main(string[] args)
         {
-            SequenceGenerator sequenceGenerator = new SequenceGenerator(10000);
+            SequenceGenerator sequenceGenerator = new SequenceGenerator(3000);
             BlockingCollection<int> blockingCollection = new BlockingCollection<int>();
+            Cache cache = new Cache();
             //we create service object,initialising the start sequence and requesting our number of sequence numbers
             Service s1 = new Service(sequenceGenerator, blockingCollection, 1000, 
-                1000, "Web");
-            s1.StartWork();
+                10, "Web");
             s1.StartWork();
             
-            Service s2 = new Service(sequenceGenerator, blockingCollection, 2000, 500, "Rest");
+            Service s2 = new Service(sequenceGenerator, blockingCollection, 2000, 5, "Rest");
             s2.StartWork();
-            Console.ReadLine();
+           
+            
+            Consumer consumer=new Consumer(blockingCollection,cache,s1,s2);
+            consumer.StartWork();
+            
+          
+            
+            
         }
     }
 }
