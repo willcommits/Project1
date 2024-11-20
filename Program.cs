@@ -23,10 +23,17 @@ namespace HelloWorld
             
             Consumer consumer=new Consumer(blockingCollection,cache,s1,s2);
             consumer.StartWork();
-            
-          
-            
-            
+
+
+            while (true)
+            {
+                Console.WriteLine("do you want to see the cache?");
+                Console.ReadLine();
+                cache.DisplayCache();
+                cache.DisplayCacheMemoryUsage();
+                
+           
+            }
         }
     }
 }

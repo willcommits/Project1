@@ -70,14 +70,18 @@ namespace HelloWorld
         {
             while (isRunning)
             {
-                Console.WriteLine($"I'm the service {_serviceName} .........");
+                //Console.WriteLine($"I'm the service {_serviceName} .........");
                 int sequenceTracker = 0;
                 for (int i = _startSequence; i <= _endSequence; i++)
                 {
-                    Console.WriteLine($"I'm the service {_serviceName} .........");
-                    Console.WriteLine($"Processing sequence {i}");
                     sequenceTracker++;
                     _blockingCollection.Add(i);
+
+                    if (i % 1000 == 0)
+                    {
+                        _blockingCollection.Add(i);
+                    }
+                    
                     Thread.Sleep(_threadSleeptimeMs);
                 }
 
@@ -86,7 +90,8 @@ namespace HelloWorld
                 if (x.seqExhausted)
                 {
                    StopWork();
-                    Console.WriteLine(" I ran out of Sequence Numbers.");
+                    //
+                    //Console.WriteLine(" I ran out of Sequence Numbers.");
                     return;
                 }
                 _startSequence = x.startVal;
