@@ -4,6 +4,8 @@ namespace HelloWorld
 {
     public class Service
     {
+
+       
         private readonly string _serviceName;
         private readonly int _lengthOfRequestedSequenceNumber;
         private readonly int _threadSleeptimeMs;
@@ -70,14 +72,16 @@ namespace HelloWorld
         {
             while (isRunning)
             {
-                Console.WriteLine($"I'm the service {_serviceName} .........");
+                
                 int sequenceTracker = 0;
                 for (int i = _startSequence; i <= _endSequence; i++)
                 {
-                    Console.WriteLine($"I'm the service {_serviceName} .........");
-                    Console.WriteLine($"Processing sequence {i}");
+                    if (i % 10000 == 0)
+                    {
+                        _blockingCollection.Add(GenerateHashValue(i));
+                    }
                     sequenceTracker++;
-                    _blockingCollection.Add(i);
+                    _blockingCollection.Add(GenerateHashValue(i));
                     Thread.Sleep(_threadSleeptimeMs);
                 }
 
@@ -95,6 +99,10 @@ namespace HelloWorld
             }
         }
 
+        public int GenerateHashValue(int value)
+        {
+            return value.GetHashCode();
+        }
 
         public bool getIsRunning()
         {

@@ -23,6 +23,14 @@ namespace HelloWorld
             
             Consumer consumer=new Consumer(blockingCollection,cache,s1,s2);
             consumer.StartWork();
+
+            while (true)
+            {
+                Console.WriteLine("Do you want to print the data?");
+                Console.ReadLine();
+                cache.DisplayCache();
+                cache.DisplayCacheMemoryUsage();
+            }
             
           
             

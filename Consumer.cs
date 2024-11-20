@@ -40,13 +40,13 @@ public class Consumer
     {
         //I made an assumption that if both the services are still running and as we constanly monitor our blocking queue will always retrieving the value if one is ever stored
         //in the queue
-        while (_s1.getIsRunning()|| _s2.getIsRunning())
+        while (isRunning)
         {
-            Console.WriteLine("Doing Consumer Stuff");
+     
             if (_blockqueue.TryTake(out int value, 1000)) // Timeout of 1000 ms
             {
-                Console.WriteLine("I'm populating");
-                _cache.PopulateCache(value);
+                _cache.PopulateCache(value
+                );
             }
 
         }

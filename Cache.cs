@@ -5,28 +5,27 @@ namespace HelloWorld
 {
     public class Cache
     {
-        private readonly object lockObj = new object();
-        private readonly HashSet<int> cache = new HashSet<int>();
-
-     
         
+        private readonly Dictionary<long, DateTime> cache2 = new();
         public void PopulateCache(int value)
         {
-            lock (lockObj)
+            long memoryBefore = GC.GetTotalMemory(forceFullCollection: true);
+            if (!cache2.TryAdd(value, DateTime.Now))
             {
-         
-                cache.Add(value);
-                
+                Console.WriteLine($"Cache key already exists {value}");
             }
         }
-
+        
+        //memory usage of the cache 
+        public void DisplayCacheMemoryUsage()
+        {
+            long totalMemory = GC.GetTotalMemory(forceFullCollection: true);
+            Console.WriteLine($"Overall Cache memory used: {totalMemory} bytes");
+        }
         // Displays the current cache contents
         public void DisplayCache()
         {
-            lock (lockObj)
-            {
-                Console.WriteLine("Current Cache: " + string.Join(", ", cache));
-            }
+            Console.WriteLine($"Current Cache size: {cache2.Count}");
         }
     }
 }
