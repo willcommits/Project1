@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 
+
+
 namespace HelloWorld
 {
     public class Cache
@@ -10,13 +12,17 @@ namespace HelloWorld
         
         public void PopulateCache(int value)            
         {
-            if (!cache2.TryAdd(value, value))
-            {
-                Console.WriteLine("Value is repeated");
-            }
-           
+            
+            //check ahead if a value is one more
+            //check behind if value is one less
+            //check ahead one more if incremented once more won't be the other start value
+            //find way to combine the ranges.
+            
+            //delete the duplicates 
+            
+            cache2.Remove();
          
-
+            
         }
         
         public void DisplayCacheMemoryUsage()

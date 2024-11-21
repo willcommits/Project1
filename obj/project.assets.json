@@ -1,11 +1,37 @@
 {
   "version": 3,
   "targets": {
-    "net8.0": {}
+    "net8.0": {
+      "BloomFilter/1.0.1": {
+        "type": "package",
+        "compile": {
+          "lib/BloomFilter.dll": {}
+        },
+        "runtime": {
+          "lib/BloomFilter.dll": {}
+        }
+      }
+    }
   },
-  "libraries": {},
+  "libraries": {
+    "BloomFilter/1.0.1": {
+      "sha512": "2NXsitF7clwdU2ANK/J0l0s4fwFS2MSYFvdb3Fm51Nf3QTGnMXftIw9jPbU8tTOHr71hBGUHAGBg91f+tg/y1w==",
+      "type": "package",
+      "path": "bloomfilter/1.0.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "bloomfilter.1.0.1.nupkg.sha512",
+        "bloomfilter.nuspec",
+        "lib/BloomFilter.dll",
+        "lib/BloomFilter.pdb"
+      ]
+    }
+  },
   "projectFileDependencyGroups": {
-    "net8.0": []
+    "net8.0": [
+      "BloomFilter >= 1.0.1"
+    ]
   },
   "packageFolders": {
     "C:\\Users\\Left\\.nuget\\packages\\": {},
@@ -56,6 +82,12 @@
     "frameworks": {
       "net8.0": {
         "targetAlias": "net8.0",
+        "dependencies": {
+          "BloomFilter": {
+            "target": "Package",
+            "version": "[1.0.1, )"
+          }
+        },
         "imports": [
           "net461",
           "net462",
@@ -75,5 +107,17 @@
         "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.100/PortableRuntimeIdentifierGraph.json"
       }
     }
-  }
+  },
+  "logs": [
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'BloomFilter 1.0.1' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1' instead of the project target framework 'net8.0'. This package may not be fully compatible with your project.",
+      "libraryId": "BloomFilter",
+      "targetGraphs": [
+        "net8.0"
+      ]
+    }
+  ]
 }
