@@ -7,9 +7,10 @@ namespace HelloWorld
         private int allocatedSequences = 0; //helps me to know where the start of the next service will be
         private readonly object lockObj = new object();
 
-        public SequenceGenerator(int maxSEQ)
+        public SequenceGenerator(int startSEQ, int maxSEQ)
         {
-            maxSequenceToAllocate = maxSEQ;
+            allocatedSequences = startSEQ;
+            maxSequenceToAllocate = startSEQ + maxSEQ;
         }
 
 
@@ -47,8 +48,8 @@ namespace HelloWorld
      
         public class SequenceGeneratorResult
         {
-            public int startVal;
-            public int endVal;
+            public long startVal;
+            public long endVal;
             public bool seqExhausted = false;
         }
     }

@@ -8,17 +8,13 @@ namespace HelloWorld
         private readonly int _lengthOfRequestedSequenceNumber;
         private readonly int _threadSleeptimeMs;
 
-
-        private int _currentSequenceNumber;
-        private int _startSequence = -1;
-        private int _endSequence = -1;
         private readonly SequenceGenerator _seqGen;
         private BlockingCollection<int> _blockingCollection;
         private bool isRunning = false;
 
         private readonly object _lock = new object();
-
-        public int LengthOfRequestedSequenceNumber => _lengthOfRequestedSequenceNumber;
+        
+        private Queue<int> _sequenceNumbers = new ();
 
         public Service(SequenceGenerator seqGen, BlockingCollection<int> blockingCollection,
             int lengthOfRequestedSequenceNumber, int threadSleeptimeMs, string serviceName)
@@ -43,21 +39,44 @@ namespace HelloWorld
             {
                 isRunning = true;
 
-                if (_startSequence == -1 || _endSequence == -1)
-                {
-                    var x = _seqGen.GetNextSequence(_lengthOfRequestedSequenceNumber);
-                    if (x.seqExhausted)
-                    {
-                        StopWork();
-                        return;
-                    }
-
-                    _startSequence = x.startVal;
-                    _endSequence = x.endVal;
-                }
-
                 Thread t = new Thread(Work);
                 t.Start();
+            }
+        }
+
+        private bool GetNextSequenceAndPopulateQueue()
+        {
+            var x = _seqGen.GetNextSequence(_lengthOfRequestedSequenceNumber);
+            if (x.seqExhausted)
+            {
+                StopWork();
+                return false;
+            }
+                    
+            // Create a list to hold the numbers
+            List<int> numbers = new List<int>();
+            IEnumerable<int> range = Enumerable.Range((int)x.startVal, (int)x.endVal + 1);
+            numbers.AddRange(range);
+            FisherYatesShuffle(numbers);
+
+            foreach (var num in numbers)
+            {
+                _sequenceNumbers.Enqueue(num);
+            }
+
+            return true;
+        }
+
+        private void FisherYatesShuffle(List<int> list)
+        {
+            Random random = new Random();
+            int n = list.Count;
+            for (int i = n - 1; i > 0; i--)
+            {
+                int j = random.Next(i + 1);
+                int temp = list[i];
+                list[i] = list[j];
+                list[j] = temp;
             }
         }
 
@@ -70,33 +89,19 @@ namespace HelloWorld
         {
             while (isRunning)
             {
-                //Console.WriteLine($"I'm the service {_serviceName} .........");
-                int sequenceTracker = 0;
-                for (int i = _startSequence; i <= _endSequence; i++)
+                if (_sequenceNumbers.Count == 0)
                 {
-                    sequenceTracker++;
-                    _blockingCollection.Add(i);
-
-                    if (i % 1000 == 0)
+                    if (!GetNextSequenceAndPopulateQueue())
                     {
-                        _blockingCollection.Add(i);
+                        StopWork();
+                        return;
                     }
-                    
-                    Thread.Sleep(_threadSleeptimeMs);
                 }
-
-                //checking if we have sequence numbers to allocate
-                var x = _seqGen.GetNextSequence(_lengthOfRequestedSequenceNumber);
-                if (x.seqExhausted)
-                {
-                   StopWork();
-                    //
-                    //Console.WriteLine(" I ran out of Sequence Numbers.");
-                    return;
-                }
-                _startSequence = x.startVal;
-                _endSequence = x.endVal;
                 
+                var nextSequenceNumber = _sequenceNumbers.Dequeue();
+                _blockingCollection.Add(nextSequenceNumber);
+                
+                Thread.Sleep(_threadSleeptimeMs);
             }
         }
 

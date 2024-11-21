@@ -5,22 +5,17 @@ namespace HelloWorld
 {
     public class Cache
     {
-       
-        //private readonly HashSet<long> cache = new();
-        private readonly Dictionary<long, DateTime> cache2 = new();
-
-     
+        private Dictionary<long, long> cache2 = new Dictionary<long, long>();
+        private static int _count=0;
         
-        public void PopulateCache(int value)
+        public void PopulateCache(int value)            
         {
-          
-            long memoryBefore = GC.GetTotalMemory(forceFullCollection: true);
-                //cache2.Add(value, DateTime.Now);
-                if (!cache2.TryAdd(value, DateTime.Now))
-                {
-                    Console.WriteLine($"Cache key already exists {value}");
-                }
-
+            if (!cache2.TryAdd(value, value))
+            {
+                Console.WriteLine("Value is repeated");
+            }
+           
+         
 
         }
         
@@ -32,9 +27,19 @@ namespace HelloWorld
         // Displays the current cache contents
         public void DisplayCache()
         {
-            
-                Console.WriteLine($"Current Cache size: {cache2.Count}");
+
+            foreach (var kvp in cache2)
+            {
+                Console.WriteLine($"{kvp.Key}");
+            }
           
+        }
+
+        public void DisplayElementsCount()
+        {
+            Console.Write("Number of elements in Cache: "+ cache2.Count);
+
+         
         }
     }
 }

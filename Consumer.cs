@@ -6,17 +6,15 @@ public class Consumer
 {
     private BlockingCollection<int> _blockqueue;
     private Cache _cache;
-    private Service _s1;
-    private Service _s2;
+
 
     private Boolean isRunning = false;
 
-    public Consumer(BlockingCollection<int> blockqueue,Cache cache,Service s1,Service s2 )
+    public Consumer(BlockingCollection<int> blockqueue,Cache cache)
     {
         _blockqueue = blockqueue;
         _cache = cache;
-        _s1 = s1;
-        _s2 = s2;
+       
     }
 
     public void StartWork()
