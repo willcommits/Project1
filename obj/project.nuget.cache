@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "Hdb9iKkHzKY=",
+  "dgSpecHash": "PImeGzNLzH0=",
   "success": true,
-  "projectFilePath": "C:\\Users\\Left\\RiderProjects\\Project3\\ConsoleApp3.csproj",
+  "projectFilePath": "C:\\Users\\Left\\RiderProjects\\Project4\\ConsoleApp3.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Left\\.nuget\\packages\\bloomfilter\\1.0.1\\bloomfilter.1.0.1.nupkg.sha512"
   ],

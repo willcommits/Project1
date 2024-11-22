@@ -17,8 +17,8 @@ namespace HelloWorld
                 10, "Web");
             s1.StartWork();
             
-            //Service s2 = new Service(sequenceGenerator, blockingCollection, 2000, 5, "Rest");
-            //s2.StartWork();
+            Service s2 = new Service(sequenceGenerator, blockingCollection, 200, 5, "Rest");
+            s2.StartWork();
            
             
             Consumer consumer=new Consumer(blockingCollection,cache);
@@ -29,7 +29,7 @@ namespace HelloWorld
             {
                 Console.WriteLine("do you want to see the cache?");
                 Console.ReadLine();
-                cache.DisplayCache();
+                cache.DisplayElements();
                
              
                 

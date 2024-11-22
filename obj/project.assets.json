@@ -40,11 +40,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Left\\RiderProjects\\Project3\\ConsoleApp3.csproj",
+      "projectUniqueName": "C:\\Users\\Left\\RiderProjects\\Project4\\ConsoleApp3.csproj",
       "projectName": "ConsoleApp3",
-      "projectPath": "C:\\Users\\Left\\RiderProjects\\Project3\\ConsoleApp3.csproj",
+      "projectPath": "C:\\Users\\Left\\RiderProjects\\Project4\\ConsoleApp3.csproj",
       "packagesPath": "C:\\Users\\Left\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Left\\RiderProjects\\Project3\\obj\\",
+      "outputPath": "C:\\Users\\Left\\RiderProjects\\Project4\\obj\\",
       "projectStyle": "PackageReference",
       "UsingMicrosoftNETSdk": false,
       "fallbackFolders": [
