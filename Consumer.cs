@@ -6,14 +6,16 @@ public class Consumer
 {
     private BlockingCollection<int> _blockqueue;
     private Cache _cache;
+    private int _bucketsize;
 
 
     private Boolean isRunning = false;
 
-    public Consumer(BlockingCollection<int> blockqueue,Cache cache)
+    public Consumer(BlockingCollection<int> blockqueue,Cache cache,int bucketsize)
     {
         _blockqueue = blockqueue;
         _cache = cache;
+        _bucketsize = bucketsize;
        
     }
     public void StartWork()
@@ -38,7 +40,7 @@ public class Consumer
         {
       if (_blockqueue.TryTake(out int value, 1000)) // Timeout of 1000 ms
             {
-                _cache.PopulateCache(value,1000000);
+                _cache.PopulateCache(value,_bucketsize);
             }
 
         }

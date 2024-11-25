@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 
 
 namespace HelloWorld
@@ -50,10 +51,32 @@ namespace HelloWorld
         public void DisplayCacheMemoryUsage()
         {
             long totalMemory = GC.GetTotalMemory(forceFullCollection: true);
-            Console.WriteLine($"Overall Cache memory used: {totalMemory} bytes");
+            Console.WriteLine($"Overall memory used: {totalMemory} bytes");
+
+            long totalCacheSize = 0;
+            long dictionaryMemorySize = 0;
+
+            // Calculate the memory size of cache2 (Dictionary)
+            foreach (var kvp in cache2)
+            {
+                // Memory used by the Dictionary itself (key-value pair)
+                dictionaryMemorySize += sizeof(long); // Size of long (8 bytes for key)
+                dictionaryMemorySize += IntPtr.Size; // Size of reference to Data object (4 bytes on 32-bit or 8 bytes on 64-bit)
+                if (kvp.Value != null)
+                {
+                    totalCacheSize += kvp.Value.GetDataSize(); // Add the size of each Data object
+                }
+            }
+
+            // Print the estimated memory sizes
+            Console.WriteLine($"Memory used by the dictionary structure: {dictionaryMemorySize} bytes");
+            Console.WriteLine($"Memory used by the data objects in cache: {totalCacheSize} bytes");
+            Console.WriteLine($"Total memory used by cache2: {dictionaryMemorySize + totalCacheSize} bytes");
         }
 
-        // Displays the current cache contents
+
+
+
         public void DisplayCache()
         {
             foreach (var kvp in cache2)
