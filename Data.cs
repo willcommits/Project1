@@ -24,6 +24,12 @@ public class Data
             _bitArray = null;
             return;
         }
+
+        if (_bitArray[value] == true)
+        {
+            Console.Write("This value is already occupied, Duplicated Detected");
+            return;
+        }
         _bitArray[value] = true;
         _occupancySize++;
     }

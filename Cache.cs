@@ -14,13 +14,25 @@ namespace HelloWorld
 
         public void PopulateCache(int value,int divisor)
         {
-            
-            Data n=new Data()
+            //is my bucket
+            Data n = null;
+          
             int quotient = value / divisor;      // This gives the '12'
             int remainder = value % divisor;     // This gives the '37163'
             
-            cache2.Add(quotient,);
-
+            //only create when its not there in cache
+            if (!cache2.ContainsKey(quotient))
+            {
+                 n = new Data(1000); //bucket size passed
+                 n.storeValue(remainder);
+                  cache2[quotient] = n;
+            }
+            else
+            {
+                if (cache2.TryGetValue(quotient, out n)) { 
+                    n.storeValue(remainder);
+                }
+            }
             
         }
         public void DisplayCacheMemoryUsage()

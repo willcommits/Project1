@@ -45,7 +45,8 @@ public class Consumer
             if (_blockqueue.TryTake(out int value, 1000)) // Timeout of 1000 ms
             {
                 //Console.WriteLine("I'm populating");
-                _cache.PopulateCache(value);
+                //set the bucket to 1000
+                _cache.PopulateCache(value,1000);
             }
 
         }
