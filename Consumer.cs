@@ -16,7 +16,6 @@ public class Consumer
         _cache = cache;
        
     }
-
     public void StartWork()
     {
         if (!isRunning)
@@ -27,7 +26,6 @@ public class Consumer
         }
         
     }
-
     public void Stop()
     
     {
@@ -36,22 +34,14 @@ public class Consumer
 
     public void work()
     {
-        //I made an assumption that if both the services are still running and as we constanly monitor our blocking queue will always retrieving the value if one is ever stored
-        //in the queue
-        while (isRunning)
+     while (isRunning)
         {
-            //
-            //Console.WriteLine("Doing Consumer Stuff");
-            if (_blockqueue.TryTake(out int value, 1000)) // Timeout of 1000 ms
+      if (_blockqueue.TryTake(out int value, 1000)) // Timeout of 1000 ms
             {
-                //Console.WriteLine("I'm populating");
-                //set the bucket to
                 _cache.PopulateCache(value,1000000);
             }
 
         }
-
-
        _cache.DisplayCache();
     }
     

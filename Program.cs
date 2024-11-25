@@ -29,7 +29,7 @@ namespace HelloWorld
             {
                 Console.WriteLine("do you want to see the cache?");
                 Console.ReadLine();
-                cache.DisplayElements();
+                cache.DisplayCacheMemoryUsage();
                
              
                 

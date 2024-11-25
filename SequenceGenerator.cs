@@ -12,9 +12,7 @@ namespace HelloWorld
             allocatedSequences = startSEQ;
             maxSequenceToAllocate = startSEQ + maxSEQ;
         }
-
-
-
+        
         public SequenceGeneratorResult GetNextSequence(int requested)
         {
             lock (lockObj)
@@ -43,9 +41,7 @@ namespace HelloWorld
                 return result;
             }
         }
-
-
-     
+        
         public class SequenceGeneratorResult
         {
             public long startVal;
