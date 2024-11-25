@@ -9,7 +9,7 @@ namespace HelloWorld
     {
         public static void Main(string[] args)
         {
-            SequenceGenerator sequenceGenerator = new SequenceGenerator(10,500);
+            SequenceGenerator sequenceGenerator = new SequenceGenerator(10,1000000);
             BlockingCollection<int> blockingCollection = new BlockingCollection<int>();
             Cache cache = new Cache();
             //we create service object,initialising the start sequence and requesting our number of sequence numbers

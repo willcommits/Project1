@@ -8,13 +8,13 @@ namespace HelloWorld
     public class Cache
     {
         //Value will be my data structure 
-       private SortedDictionary<long, Data> cache2 = new SortedDictionary<long, Data>();
+       private Dictionary<long, Data> cache2 = new Dictionary<long, Data>();
         private static int _count = 0;
 
 
         public void PopulateCache(int value,int divisor)
         {
-            //is my bucket
+            // divisor is my bucket size
             Data n = null;
           
             int quotient = value / divisor;      // This gives the '12'
@@ -23,14 +23,26 @@ namespace HelloWorld
             //only create when its not there in cache
             if (!cache2.ContainsKey(quotient))
             {
-                 n = new Data(1000); //bucket size passed
+                 n = new Data(divisor); //bucket size passed
                  n.storeValue(remainder);
                   cache2[quotient] = n;
             }
             else
             {
-                if (cache2.TryGetValue(quotient, out n)) { 
-                    n.storeValue(remainder);
+                if (cache2.TryGetValue(quotient, out n))
+                {
+                    if (n != null)
+                    {
+                        n.storeValue(remainder);
+                    }
+                    else
+                    {
+                        Console.WriteLine("Error: Retrieved null value from cache.");
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Error: Key not found in cache.");
                 }
             }
             

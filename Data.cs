@@ -25,7 +25,7 @@ public class Data
             return;
         }
 
-        if (_bitArray[value] == true)
+        if (_bitArray[value])
         {
             Console.Write("This value is already occupied, Duplicated Detected");
             return;
