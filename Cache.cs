@@ -68,10 +68,17 @@ namespace HelloWorld
                 }
             }
 
-            // Print the estimated memory sizes
-            Console.WriteLine($"Memory used by the dictionary structure: {dictionaryMemorySize} bytes");
-            Console.WriteLine($"Memory used by the data objects in cache: {totalCacheSize} bytes");
-            Console.WriteLine($"Total memory used by cache2: {dictionaryMemorySize + totalCacheSize} bytes");
+            // Convert bytes to megabytes
+            double dictionaryMemorySizeMB = dictionaryMemorySize / 1024.0 / 1024.0;
+            double totalCacheSizeMB = totalCacheSize / 1024.0 / 1024.0;
+            double totalMemoryUsedMB = (dictionaryMemorySize + totalCacheSize) / 1024.0 / 1024.0;
+
+// Display memory usage in MB
+            Console.WriteLine($"Memory used by the dictionary structure: {dictionaryMemorySizeMB:F2} MB");
+            Console.WriteLine($"Memory used by the data objects in cache: {totalCacheSizeMB:F2} MB");
+            Console.WriteLine($"Total memory used by cache2: {totalMemoryUsedMB:F2} MB");
+
+            
         }
 
 

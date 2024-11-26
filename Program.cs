@@ -13,14 +13,14 @@ namespace HelloWorld
             // Create an array of Service objects
             List<Service> services = new List<Service>();
 
-            SequenceGenerator sequenceGenerator = new SequenceGenerator(10,1000000);
+            SequenceGenerator sequenceGenerator = new SequenceGenerator(10,10000000);
             BlockingCollection<int> blockingCollection = new BlockingCollection<int>();
             Cache cache = new Cache();
             //we create service object,initialising the start sequence and requesting our number of sequence numbers
 
             services.Add(new Service(sequenceGenerator, blockingCollection, 2000, 1, "Web")); 
-            services.Add(new Service(sequenceGenerator, blockingCollection, 155, 0, "Rest")); 
-            services.Add(new Service(sequenceGenerator, blockingCollection, 750, 2, "SOAP"));
+            services.Add(new Service(sequenceGenerator, blockingCollection, 1000, 0, "Rest")); 
+            services.Add(new Service(sequenceGenerator, blockingCollection, 500, 2, "SOAP"));
 
             foreach (var service in services) { service.StartWork(); }
             

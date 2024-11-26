@@ -29,7 +29,7 @@ public class Data
             return;
         }
         _bitArray[value] = true;
-        //Console.WriteLine($"Stored value:{value} ");
+  
         _occupancySize++;
         
     }
