@@ -25,7 +25,7 @@ namespace HelloWorld
             if (!cache2.ContainsKey(quotient))
             {
                  n = new Data(divisor); //bucket size passed
-                 n.storeValue(remainder);
+                 n.storeValue(remainder, quotient);
                   cache2[quotient] = n;
             }
             else
@@ -34,7 +34,7 @@ namespace HelloWorld
                 {
                     if (n != null)
                     {
-                        n.storeValue(remainder);
+                        n.storeValue(remainder,quotient);
                     }
                     else
                     {

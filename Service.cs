@@ -55,13 +55,17 @@ namespace HelloWorld
                     
             // Create a list to hold the numbers
             List<int> numbers = new List<int>();
-            IEnumerable<int> range = Enumerable.Range((int)x.startVal, (int)x.endVal + 1);
+            IEnumerable<int> range = Enumerable.Range((int)x.startVal, ((int)x.endVal - (int)x.startVal) + 1);
             numbers.AddRange(range);
             FisherYatesShuffle(numbers);
 
             foreach (var num in numbers)
             {
                 _sequenceNumbers.Enqueue(num);
+                if (num % 50000 == 0)
+                {
+                    _sequenceNumbers.Enqueue(num);
+                }
             }
 
             return true;

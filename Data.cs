@@ -1,37 +1,37 @@
 using System.Collections;
-
+using System;
 namespace HelloWorld;
 
 public class Data
 {
     private int _occupancySize;
     private BitArray _bitArray;
+    private Boolean isFull = false;
     public Data(int size)
     {
         _bitArray = new BitArray(size, false);
         _occupancySize = 0;
     }
 
-    public void storeValue(int value)
+    public void storeValue(int value,int key)
     {
-        if (_occupancySize == _bitArray.Length)
+        if (_occupancySize == _bitArray.Length && !isFull)
         {
-            _bitArray = null;
-            GC.Collect(); 
+            _bitArray.SetAll(false);
+            isFull = true;
+            _occupancySize = 0;
             return;
         }
 
-        if (_bitArray==null || _bitArray[value] )
-        {
-            Console.Write("Duplicate Detected");
+        if (  isFull||_bitArray[value] )
+        { 
+            Console.Write($"Duplicated:{key}{value} exists in position:{value} \n");
             return;
         }
-
-        if (_bitArray != null)
-        {
-            _bitArray[value] = true;
-            _occupancySize++;
-        }
+        _bitArray[value] = true;
+        //Console.WriteLine($"Stored value:{value} ");
+        _occupancySize++;
+        
     }
     
     public long GetDataSize()

@@ -10,36 +10,25 @@ namespace HelloWorld
     {
         public static void Main(string[] args)
         {
-            SequenceGenerator sequenceGenerator = new SequenceGenerator(10,100000);
+            // Create an array of Service objects
+            List<Service> services = new List<Service>();
+
+            SequenceGenerator sequenceGenerator = new SequenceGenerator(10,1000000);
             BlockingCollection<int> blockingCollection = new BlockingCollection<int>();
             Cache cache = new Cache();
             //we create service object,initialising the start sequence and requesting our number of sequence numbers
-            Service s1 = new Service(sequenceGenerator, blockingCollection, 1000, 
-                10, "Web");
-            s1.StartWork();
-            
-            Service s2 = new Service(sequenceGenerator, blockingCollection, 500, 5, "Rest");
-            s2.StartWork();
-            
-            Service s3 = new Service(sequenceGenerator, blockingCollection, 500, 5, "SOAP");
-            s3.StartWork();
 
-           
+            services.Add(new Service(sequenceGenerator, blockingCollection, 2000, 1, "Web")); 
+            services.Add(new Service(sequenceGenerator, blockingCollection, 155, 0, "Rest")); 
+            services.Add(new Service(sequenceGenerator, blockingCollection, 750, 2, "SOAP"));
+
+            foreach (var service in services) { service.StartWork(); }
             
-            Consumer consumer=new Consumer(blockingCollection,cache,1000);
+            Consumer consumer=new Consumer(blockingCollection,cache,100000,services);
             consumer.StartWork();
 
 
-            while (true)
-            {
-                Console.WriteLine("do you want to see the cache?");
-                Console.ReadLine();
-                cache.DisplayCacheMemoryUsage();
-               
-             
-                
-           
-            }
+         
         }
     }
 }

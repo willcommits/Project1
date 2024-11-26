@@ -22,6 +22,8 @@ namespace HelloWorld
                 if (allocatedSequences >= maxSequenceToAllocate)
                 {
                     result.seqExhausted = true;
+                    //Console.WriteLine("Sequence exhausted");
+                    result.Info();
                     return result;
                 }
                 
@@ -37,7 +39,7 @@ namespace HelloWorld
                 allocatedSequences += requested; //10
                 result.endVal = allocatedSequences - 1; //9
                 
-                
+                result.Info();
                 return result;
             }
         }
@@ -47,6 +49,11 @@ namespace HelloWorld
             public long startVal;
             public long endVal;
             public bool seqExhausted = false;
+
+            public void Info()
+            {
+                Console.WriteLine($"Start: {startVal}. End: {endVal}. Exhausted: {seqExhausted}" );
+            }
         }
     }
 }
