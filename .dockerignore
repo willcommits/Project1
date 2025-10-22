@@ -1,0 +1,18 @@
+# Build artifacts
+bin/
+obj/
+
+# Git
+.git/
+.gitignore
+
+# IDE
+.vs/
+.vscode/
+.idea/
+*.user
+*.suo
+
+# Other
+*.log
+.DS_Store
